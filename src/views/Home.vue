@@ -168,12 +168,14 @@ nav {
   box-sizing: border-box;
   display: grid;
   grid-column-gap: 1em;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   height: 0.3em;
   padding: 0 1em;
   position: fixed;
-  bottom: 1em;
-  width: 100%;
+  top: 24em;
+  width: 80vh;
+  right: -18em;
+  transform: rotate(90deg);
 }
 
 nav > div {

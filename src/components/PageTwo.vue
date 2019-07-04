@@ -29,7 +29,19 @@ export default {
   },
   methods: {},
   mounted() {
-    this.backgroundAudio = new Audio(AUDIO); // path to file
+    this.backgroundAudio = new Audio(AUDIO);
+    if (typeof this.backgroundAudio.loop == "boolean") {
+      this.backgroundAudio.loop = true;
+    } else {
+      this.backgroundAudio.addEventListener(
+        "ended",
+        function() {
+          this.currentTime = 0;
+          this.play();
+        },
+        false
+      );
+    }
   }
 };
 </script>
