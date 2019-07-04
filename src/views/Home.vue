@@ -1,18 +1,20 @@
 <template>
   <div id="home">
-    <nav>
-      <div v-for="(view, index) in views" :key="index">
-        <div></div>
-      </div>
-    </nav>
-
-    <section
-      v-for="(view, index) in filteredViews"
-      :key="index"
-      :style="{ background: view.color }"
-    >
-      <component :is="view.component" />
-    </section>
+    <div class="slides">
+      <section
+        :class="['slide', current == index && 'active']"
+        v-for="(view, index) in views"
+        :key="index"
+      >
+        <component
+          :is="view.component"
+          :isVisible="current == index"
+          v-on:next="next"
+          v-on:prev="prev"
+          :scroll="scroll"
+        />
+      </section>
+    </div>
   </div>
 </template>
 
@@ -21,80 +23,117 @@
 
 import anime from "animejs";
 import Hammer from "hammerjs";
+import PageOne from "../components/PageOne";
+import PageTwo from "../components/PageTwo";
+import { debounce } from "underscore";
 
 export default {
   name: "home",
   data() {
     return {
+      isStarted: false,
+      currentStage: "intro_1",
       views: [
         {
-          color: "#D53738",
           component: () => import("../components/PageOne.vue")
         },
         {
-          color: "#638867",
           component: () => import("../components/PageTwo.vue")
         },
         {
-          color: "#2C3576",
           component: () => import("../components/PageThree.vue")
         }
       ],
       current: 0
     };
   },
+  created() {
+    this.scroll = debounce(this.scroll, 50);
+  },
   computed: {
     filteredViews() {
       return this.views.filter((view, index) => index == this.current);
     }
   },
-  mounted() {
-    let timeline = anime.timeline({
-      autoplay: true,
-      duration: 10000,
-      easing: "linear",
-      loop: true
-    });
+  methods: {
+    scroll(event) {
+      console.log("scroll");
+      if (event.wheelDelta > 0) {
+        this.prev();
+      } else {
+        this.next();
+      }
+    },
+    next() {
+      this.current += 1;
+    },
+    prev() {
+      this.current -= 1;
+    },
+    onPause() {
+      this.timeline.pause();
+    },
+    onPlay() {
+      this.timeline.play();
+    },
+    onStop() {
+      if (!this.isStarted) return;
+      this.timeline.restart();
+      this.timeline.pause();
+      this.isStarted = false;
+    },
+    onStart() {
+      if (this.isStarted) return;
 
-    this.views.forEach((view, index) => {
-      timeline.add({
-        targets: document.querySelectorAll("nav > div")[index].children[0],
-        width: "100%",
-        changeBegin: a => {
-          this.current = index;
+      this.isStarted = true;
+
+      this.timeline = anime.timeline({
+        autoplay: true,
+        duration: 10000,
+        easing: "linear",
+        loop: true
+      });
+
+      this.views.forEach((view, index) => {
+        this.timeline.add({
+          targets: document.querySelectorAll("nav > div")[index].children[0],
+          width: "100%",
+          changeBegin: a => {
+            this.current = index;
+          }
+        });
+      });
+
+      let hammertime = new Hammer(document.querySelector(".slides"));
+
+      hammertime.on("press", e => {
+        this.timeline.pause();
+      });
+
+      hammertime.on("pressup", e => {
+        this.timeline.play();
+      });
+
+      hammertime.on("tap", e => {
+        if (e.center.x > window.innerWidth / 2) {
+          if (this.current < this.views.length - 1) {
+            this.current += 1;
+
+            this.timeline.pause();
+            this.timeline.seek(this.current * 10000);
+            this.timeline.play();
+          }
+        } else {
+          if (this.current > 0) {
+            this.current -= 1;
+
+            this.timeline.pause();
+            this.timeline.seek(this.current * 10000);
+            this.timeline.play();
+          }
         }
       });
-    });
-
-    let hammertime = new Hammer(document.querySelector("#app"));
-
-    hammertime.on("press", e => {
-      timeline.pause();
-    });
-
-    hammertime.on("pressup", e => {
-      timeline.play();
-    });
-
-    hammertime.on("tap", e => {
-      if (e.center.x > window.innerWidth / 2) {
-        if (this.current < this.views.length - 1) {
-          this.current += 1;
-
-          timeline.pause();
-          timeline.seek(this.current * 10000);
-          timeline.play();
-        }
-      } else {
-        if (this.current > 0) {
-          this.current -= 1;
-
-          timeline.pause();
-          timeline.seek(this.current * 10000);
-          timeline.play();
-        }
-      }
-    });
+    }
   }
 };
 </script>
@@ -115,10 +154,14 @@ section,
   height: 100%;
   width: 100%;
   margin: 0;
+  overflow: hidden;
 }
 
-section {
-  transition: all 0.3s linear;
+.section {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  transition: opacity 1s ease;
 }
 
 nav {
