@@ -12,6 +12,7 @@
           v-on:next="next"
           v-on:prev="prev"
           :scroll="scroll"
+          :video="view.video"
         />
       </section>
     </div>
@@ -32,15 +33,17 @@ export default {
   data() {
     return {
       isStarted: false,
-      currentStage: "intro_1",
       views: [
         {
+          video: "./videos/INTRO_video01_InstructionsBG.mp4",
           component: () => import("../components/PageOne.vue")
         },
         {
+          video: "./videos/INTRO_video02.mp4",
           component: () => import("../components/PageTwo.vue")
         },
         {
+          video: "./videos/INTRO_video03.mp4",
           component: () => import("../components/PageThree.vue")
         }
       ],
@@ -48,7 +51,7 @@ export default {
     };
   },
   created() {
-    this.scroll = debounce(this.scroll, 50);
+    this.scroll = debounce(this.scroll, 100);
   },
   computed: {
     filteredViews() {
@@ -57,7 +60,6 @@ export default {
   },
   methods: {
     scroll(event) {
-      console.log("scroll");
       if (event.wheelDelta > 0) {
         this.prev();
       } else {
@@ -65,9 +67,11 @@ export default {
       }
     },
     next() {
+      if (this.current === this.views.length) return;
       this.current += 1;
     },
     prev() {
+      if (this.current === 0) return;
       this.current -= 1;
     },
     onPause() {
@@ -100,6 +104,7 @@ export default {
           width: "100%",
           changeBegin: a => {
             this.current = index;
+            this.updateBG_VIDEO(view.video);
           }
         });
       });
@@ -139,53 +144,4 @@ export default {
 </script>
 
 <style>
-* {
-  box-sizing: border-box;
-}
-h1 {
-  display: inline-block;
-}
-html,
-body,
-main,
-section,
-#app,
-#home {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  overflow: hidden;
-}
-
-.section {
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  transition: opacity 1s ease;
-}
-
-nav {
-  box-sizing: border-box;
-  display: grid;
-  grid-column-gap: 1em;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  height: 0.3em;
-  padding: 0 1em;
-  position: fixed;
-  top: 24em;
-  width: 80vh;
-  right: -18em;
-  transform: rotate(90deg);
-}
-
-nav > div {
-  background: rgba(255, 255, 255, 0.25);
-  height: 100%;
-}
-
-nav > div > div {
-  background: #ffffff;
-  height: 100%;
-  width: 0%;
-}
 </style>

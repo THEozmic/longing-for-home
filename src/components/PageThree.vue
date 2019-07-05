@@ -1,12 +1,21 @@
 <template>
   <div @wheel="scroll">
-    <div class="intro-content">First Story</div>
-    <video autoplay loop muted src="../assets/videos/INTRO_video02.mp4"></video>
+    <div class="intro-content">Second Story</div>
+    <video autoplay loop muted :src="video"></video>
     <nav class="page-three-nav">
       <div v-for="(view, index) in views" :key="index">
         <div></div>
       </div>
     </nav>
+
+    <div
+      :class="['tape', current == index && 'active']"
+      v-for="(view, index) in views"
+      :key="index"
+      :id="'tape_'+index"
+    >
+      <img :src="require(`@/assets/images/${view.img}.svg`)" />
+    </div>
   </div>
 </template>
 
@@ -16,52 +25,14 @@ import anime from "animejs";
 
 export default {
   name: "PageThree",
-  props: ["isVisible", "scroll"],
+  props: ["isVisible", "scroll", "video"],
   data() {
     return {
-      views: [
-        {
-          content: "Holla"
-        },
-        {
-          content: "Mi Amore"
-        },
-        {
-          content: "Mi Corazon"
-        }
-      ],
-      current: 0
+      views: []
     };
   },
-  watch: {
-    isVisible(val) {
-      if (val) {
-        this.timeline.restart();
-      }
-    }
-  },
-  mounted() {
-    this.timeline = anime.timeline({
-      autoplay: false,
-      duration: 10000,
-      easing: "linear"
-    });
-
-    this.views.forEach((view, index) => {
-      this.timeline.add({
-        targets: document.querySelectorAll(".page-three-nav > div")[index]
-          .children[0],
-        width: "100%",
-        changeBegin: a => {
-          this.current = index;
-        }
-      });
-    });
-
-    this.timeline.finished.then(() => {
-      this.$emit("next");
-    });
-  }
+  watch: {},
+  mounted() {}
 };
 </script>
 
