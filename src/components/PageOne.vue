@@ -11,7 +11,7 @@
         <div class="intro-content">
           <img class="header-img" src="../assets/images/Contrast_Logo.png" />
           <p>This experience has sound</p>
-          <button @click="next">Begin</button>
+          <button class="button" @click="next">Begin</button>
         </div>
         <!-- <video autoplay loop muted>
         <source :src="video" type="video/mp4" />
@@ -40,6 +40,13 @@ export default {
       current: 0,
       backgroundAudio: null
     };
+  },
+  watch: {
+    current(val) {
+      if (val === 6) {
+        this.backgroundAudio.pause();
+      }
+    }
   },
   methods: {
     next() {

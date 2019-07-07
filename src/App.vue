@@ -36,13 +36,14 @@ nav {
   box-sizing: border-box;
   display: grid;
   grid-row-gap: 10px;
-  grid-template-rows: repeat(8, 1fr);
+  grid-template-rows: repeat(auto-fit, minmax(5px, 1fr));
   height: 90%;
   padding: 0 1em;
   position: fixed;
   top: 30px;
-  width: 54px;
+  width: 45px;
   right: 1em;
+  z-index: 2;
 }
 
 nav > div {
@@ -69,7 +70,7 @@ video::-webkit-media-controls {
   display: none !important;
 }
 
-button {
+.button {
   background-color: black;
   border: 0;
   padding: 10px;
@@ -204,10 +205,65 @@ button {
 .embed-container object,
 .embed-container embed {
   position: absolute;
-  top: 0;
+  top: -70px;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: -1;
+}
+
+.pillar::after {
+  // content: "";
+  // display: block;
+  // width: 100%;
+  // height: 1px;
+  // position: absolute;
+  // top: 0;
+  // left: 0;
+  // width: 100%;
+  // height: 100%;
+  // box-shadow: inset 0 0 125px rgba(0, 0, 0, 0.5);
+  // -moz-box-shadow: inset 0 0 125px rgba(0, 0, 0, 0.5);
+  // -webkit-box-shadow: inset 0 0 125px rgba(0, 0, 0, 0.5);
+  // background-image: url(../public/BG_Texture.png);
+  // background-size: cover;
+}
+
+.pillars {
+  height: 100%;
+  background-color: red;
+  z-index: 3;
+  display: flex;
+  justify-content: space-around;
+  position: absolute;
+  width: 100%;
+}
+
+.pillars > .pillar {
+  width: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  cursor: pointer;
+}
+
+.pillars-toggle {
+  display: inline-block;
+  position: fixed;
+  z-index: 2;
+}
+
+.pillars-toggle > button {
+  background-position: 0px;
+  background-size: 115px;
+  width: 115px;
+  height: 60px;
+  border: 0;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  outline: none;
 }
 </style>

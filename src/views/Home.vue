@@ -1,5 +1,13 @@
 <template>
   <div id="home">
+    <div class="pillars-toggle">
+      <button @click="togglePillars" :style="`background-image: url(${ICON})`"></button>
+    </div>
+    <nav v-if="(current >= 1) && (current <= 4)">
+      <div v-for="(view, index) in views" :key="index">
+        <div></div>
+      </div>
+    </nav>
     <div class="slides">
       <section
         :class="['slide', current == index && 'active']"
@@ -11,6 +19,7 @@
           :isVisible="current == index"
           v-on:next="next"
           v-on:prev="prev"
+          v-on:go="go"
           :scroll="scroll"
           :video="view.video"
         />
@@ -24,15 +33,17 @@
 
 import anime from "animejs";
 import Hammer from "hammerjs";
-import PageOne from "../components/PageOne";
-import PageTwo from "../components/PageTwo";
 import { debounce } from "underscore";
+import STORIES_ICON from "../assets/images/Icons_STORIES_WHITE.png";
+import STORIES_ICON_1 from "../assets/images/Icons_STORIES_WHITE.png";
+import INTRO_ICON from "../assets/images/INTRODUCTION_ICON-26.png";
 
 export default {
   name: "home",
   data() {
     return {
       isStarted: false,
+      ICON: STORIES_ICON,
       views: [
         {
           video: "./videos/INTRO_video01_InstructionsBG.mp4",
@@ -45,6 +56,22 @@ export default {
         {
           video: "./videos/INTRO_video03.mp4",
           component: () => import("../components/PageThree.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/PageFour.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/PageFive.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/PageSix.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/PageSeven.vue")
         }
       ],
       current: 0
@@ -58,7 +85,24 @@ export default {
       return this.views.filter((view, index) => index == this.current);
     }
   },
+  watch: {
+    current(val) {
+      if (val === 6) {
+        this.ICON = STORIES_ICON_1;
+      }
+    }
+  },
   methods: {
+    togglePillars() {
+      if (this.current === 5) {
+        this.current = 0;
+        this.ICON = STORIES_ICON;
+        return;
+      }
+
+      this.current = 5;
+      this.ICON = INTRO_ICON;
+    },
     scroll(event) {
       if (event.wheelDelta > 0) {
         this.prev();
@@ -66,13 +110,33 @@ export default {
         this.next();
       }
     },
+    go(where) {
+      this.current = where;
+    },
     next() {
       if (this.current === this.views.length) return;
-      this.current += 1;
+      (that => {
+        that.current += 1;
+
+        setTimeout(() => {
+          let currentNav = document.querySelector(
+            `nav > div:nth-child(${that.current})`
+          );
+          if (!currentNav) return;
+          currentNav.setAttribute("style", "background-color: white");
+        }, 500);
+      })(this);
     },
     prev() {
       if (this.current === 0) return;
       this.current -= 1;
+      let currentNav = document.querySelector(
+        `nav > div:nth-child(${this.current + 2})`
+      );
+      currentNav.setAttribute(
+        "style",
+        "background-color: rgba(255, 255, 255, 0.25)"
+      );
     },
     onPause() {
       this.timeline.pause();
