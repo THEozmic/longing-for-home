@@ -4,7 +4,7 @@
       <button @click="togglePillars" :style="`background-image: url(${ICON})`"></button>
     </div>
     <nav v-if="(current >= 1) && (current <= 4)">
-      <div v-for="(view, index) in views" :key="index">
+      <div v-for="(view, index) in views" :key="index" v-if="view.isIntro">
         <div></div>
       </div>
     </nav>
@@ -22,6 +22,7 @@
           v-on:go="go"
           :scroll="scroll"
           :video="view.video"
+          :parentCurrent="current"
         />
       </section>
     </div>
@@ -47,22 +48,29 @@ export default {
       views: [
         {
           video: "./videos/INTRO_video01_InstructionsBG.mp4",
+          isIntro: true,
           component: () => import("../components/PageOne.vue")
         },
         {
           video: "./videos/INTRO_video02.mp4",
+          isIntro: true,
           component: () => import("../components/PageTwo.vue")
         },
         {
           video: "./videos/INTRO_video03.mp4",
+          isIntro: true,
+
           component: () => import("../components/PageThree.vue")
         },
         {
           video: "./videos/INTRO_video03.mp4",
+          isIntro: true,
+
           component: () => import("../components/PageFour.vue")
         },
         {
           video: "./videos/INTRO_video03.mp4",
+          isIntro: true,
           component: () => import("../components/PageFive.vue")
         },
         {
@@ -72,6 +80,102 @@ export default {
         {
           video: "./videos/INTRO_video03.mp4",
           component: () => import("../components/PageSeven.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/PageEight.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/PageNine.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/PageTen.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/PageEleven.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/PageTwelve.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page13.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page14.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page15.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page16.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page16.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page17.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page18.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page19.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page20.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page21.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page22.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page23.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page24.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page25.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page25.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page26.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page27.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page28.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page29.vue")
         }
       ],
       current: 0
@@ -114,6 +218,16 @@ export default {
       this.current = where;
     },
     next() {
+      if (this.current === 16) {
+        this.current = 5;
+        return;
+      }
+
+      if (this.current === 24) {
+        this.current = 5;
+        return;
+      }
+
       if (this.current === this.views.length) return;
       (that => {
         that.current += 1;
@@ -133,6 +247,8 @@ export default {
       let currentNav = document.querySelector(
         `nav > div:nth-child(${this.current + 2})`
       );
+
+      if (!currentNav) return;
       currentNav.setAttribute(
         "style",
         "background-color: rgba(255, 255, 255, 0.25)"

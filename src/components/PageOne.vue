@@ -34,7 +34,7 @@ import AUDIO from "../assets/audios/INTRO_TEMP_MUSIC.wav";
 
 export default {
   name: "PageOne",
-  props: ["video", "scroll"],
+  props: ["video", "scroll", "parentCurrent"],
   data() {
     return {
       current: 0,
@@ -42,8 +42,11 @@ export default {
     };
   },
   watch: {
-    current(val) {
-      if (val === 6) {
+    parentCurrent(val) {
+      console.log(this.parentCurrent, ">>>");
+      if (val <= 5) {
+        this.backgroundAudio.play();
+      } else {
         this.backgroundAudio.pause();
       }
     }

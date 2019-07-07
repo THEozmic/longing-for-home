@@ -34,8 +34,8 @@ import Player from "@vimeo/player";
 import AUDIO from "../assets/audios/LANGUAGE_TEMP_MUSIC.wav";
 
 export default {
-  name: "PageTwo",
-  props: ["isVisible", "scroll", "video"],
+  name: "PageSeven",
+  props: ["isVisible", "scroll", "video", "parentCurrent"],
   data() {
     return {
       views: [],
@@ -45,9 +45,21 @@ export default {
     };
   },
   watch: {
+    parentCurrent(val) {
+      console.log(this.parentCurrent, ">>>>");
+      if (val >= 6 && val < 17) {
+        this.backgroundAudio.play();
+      } else {
+        this.backgroundAudio.pause();
+      }
+
+      if (val === 5) {
+        this.backgroundAudio.pause();
+      }
+    },
     isVisible(val) {
       if (val) {
-        this.backgroundAudio.play();
+        // this.backgroundAudio.play();
         this.player.play();
         // setTimeout(() => {
         //   anime({
@@ -57,6 +69,7 @@ export default {
         //   });
         // }, 500);
       } else {
+        this.player.pause();
         // this.timeline.pause();
         // [...document.querySelectorAll(".page-two-nav > div > div")].forEach(
         //   el => {
@@ -129,7 +142,6 @@ export default {
   mounted() {
     let iframe = document.querySelector("#page-seven-iframe");
     this.player = new Player(iframe);
-    console.log(iframe, "=====>>>>");
 
     this.backgroundAudio = new Audio(AUDIO);
     if (typeof this.backgroundAudio.loop == "boolean") {
