@@ -176,6 +176,34 @@ export default {
         {
           video: "./videos/INTRO_video03.mp4",
           component: () => import("../components/Page29.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page30.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page31.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page32.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page33.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page34.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page35.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          component: () => import("../components/Page35.vue")
         }
       ],
       current: 0
@@ -227,6 +255,13 @@ export default {
         this.current = 5;
         return;
       }
+
+      if (this.current === 35) {
+        this.current = 5;
+        return;
+      }
+
+      console.log(this.current, "oooohhhyeeeahhh");
 
       if (this.current === this.views.length) return;
       (that => {

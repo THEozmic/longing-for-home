@@ -10,7 +10,7 @@
 import { debounce } from "underscore";
 import anime from "animejs";
 import { setTimeout } from "timers";
-import IMG from "../assets/images/RELIGION_POPUP_WINDOW01.png.png";
+import IMG from "../assets/images/RELIGION_POPUP_WINDOW01.png";
 
 export default {
   name: "PageEight",
