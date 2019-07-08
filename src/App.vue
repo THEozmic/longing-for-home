@@ -114,20 +114,20 @@ video::-webkit-media-controls {
 }
 
 .slide::before {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 1px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  box-shadow: inset 0 0 125px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: inset 0 0 125px rgba(0, 0, 0, 0.5);
-  -webkit-box-shadow: inset 0 0 125px rgba(0, 0, 0, 0.5);
-  background-image: url(../public/BG_Texture.png);
-  background-size: cover;
+  // content: "";
+  // display: block;
+  // width: 100%;
+  // height: 1px;
+  // position: absolute;
+  // top: 0;
+  // left: 0;
+  // width: 100%;
+  // height: 100%;
+  // box-shadow: inset 0 0 125px rgba(0, 0, 0, 0.5);
+  // -moz-box-shadow: inset 0 0 125px rgba(0, 0, 0, 0.5);
+  // -webkit-box-shadow: inset 0 0 125px rgba(0, 0, 0, 0.5);
+  // background-image: url(../public/BG_Texture.png);
+  // background-size: cover;
 }
 
 .tape {
