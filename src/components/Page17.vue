@@ -40,7 +40,7 @@ export default {
     },
     parentCurrent(val) {
       console.log(this.parentCurrent, ">>>>");
-      if (val >= 17) {
+      if (val >= 17 && val < 27) {
         this.backgroundAudio.play();
       } else {
         this.backgroundAudio.pause();
