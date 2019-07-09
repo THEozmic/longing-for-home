@@ -4,9 +4,17 @@
       <button @click="togglePillars" :style="`background-image: url(${ICON})`"></button>
     </div>
     <nav v-if="(current >= 1) && (current <= 4)">
-      <div v-for="(view, index) in views" :key="index" v-if="view.isIntro">
-        <div></div>
-      </div>
+      <ul>
+        <li
+          v-for="(view, index) in views"
+          :key="index"
+          v-if="view.isIntro"
+          @click="() => { go(index); next(); }"
+        >
+          <div class="tooltip">{{view.title}}</div>
+          <div class="nav-item"></div>
+        </li>
+      </ul>
     </nav>
     <div class="slides">
       <section
@@ -47,30 +55,31 @@ export default {
       ICON: STORIES_ICON,
       views: [
         {
+          title: "Tooltip text 1",
           video: "./videos/INTRO_video01_InstructionsBG.mp4",
           isIntro: true,
           component: () => import("../components/PageOne.vue")
         },
         {
+          title: "Tooltip text 2",
           video: "./videos/INTRO_video02.mp4",
           isIntro: true,
           component: () => import("../components/PageTwo.vue")
         },
         {
+          title: "Tooltip text 3",
           video: "./videos/INTRO_video03.mp4",
           isIntro: true,
-
           component: () => import("../components/PageThree.vue")
         },
         {
+          title: "Tooltip text 4",
           video: "./videos/INTRO_video03.mp4",
           isIntro: true,
-
           component: () => import("../components/PageFour.vue")
         },
         {
           video: "./videos/INTRO_video03.mp4",
-          isIntro: true,
           component: () => import("../components/PageFive.vue")
         },
         {
@@ -222,6 +231,8 @@ export default {
       if (val === 6) {
         this.ICON = STORIES_ICON_1;
       }
+
+      this.updateNav();
     }
   },
   methods: {
@@ -261,33 +272,46 @@ export default {
         return;
       }
 
-      console.log(this.current, "oooohhhyeeeahhh");
-
       if (this.current === this.views.length) return;
-      (that => {
-        that.current += 1;
 
+      this.current += 1;
+      console.log(this.current, "oooohhhyeeeahhh");
+    },
+    prev() {
+      if (this.current === 0) return;
+      this.current -= 1;
+      console.log("yeah", this.current);
+
+      // let currentNav = document.querySelector(
+      //   `nav > div:nth-child(${this.current + 2})`
+      // );
+
+      // if (!currentNav) return;
+      // currentNav.setAttribute(
+      //   "style",
+      //   "background-color: rgba(255, 255, 255, 0.25)"
+      // );
+    },
+    updateNav(isUp) {
+      let navs = document.querySelectorAll("nav li");
+      if (navs) {
+        [...navs].forEach(el => {
+          el.setAttribute(
+            "style",
+            "background-color: rgba(255, 255, 255, 0.25)"
+          );
+        });
+      }
+
+      (that => {
         setTimeout(() => {
           let currentNav = document.querySelector(
-            `nav > div:nth-child(${that.current})`
+            `nav li:nth-child(${that.current})`
           );
           if (!currentNav) return;
           currentNav.setAttribute("style", "background-color: white");
         }, 500);
       })(this);
-    },
-    prev() {
-      if (this.current === 0) return;
-      this.current -= 1;
-      let currentNav = document.querySelector(
-        `nav > div:nth-child(${this.current + 2})`
-      );
-
-      if (!currentNav) return;
-      currentNav.setAttribute(
-        "style",
-        "background-color: rgba(255, 255, 255, 0.25)"
-      );
     },
     onPause() {
       this.timeline.pause();

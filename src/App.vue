@@ -32,27 +32,50 @@ section,
   transition: opacity 1s ease;
 }
 
-nav {
+nav ul {
   box-sizing: border-box;
+  z-index: 2;
   display: grid;
   grid-row-gap: 10px;
-  grid-template-rows: repeat(auto-fit, minmax(5px, 1fr));
-  height: 90%;
-  padding: 0 1em;
-  position: fixed;
-  top: 30px;
-  width: 45px;
-  right: 1em;
-  z-index: 2;
-}
-
-nav > div {
-  background: rgba(255, 255, 255, 0.25);
-}
-
-nav > div > div {
+  grid-template-rows: repeat(5, minmax(30px, 1fr));
   height: 100%;
+  padding: 33vh 0;
+  margin: 0;
+  position: fixed;
+  top: 0;
+  width: 5px;
+  right: 1em;
+  list-style: none;
 }
+
+nav li {
+  background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  position: relative;
+}
+
+nav li:hover .tooltip {
+  opacity: 1;
+  width: auto;
+}
+
+nav li .tooltip {
+  font-size: 16px;
+  left: -90px;
+  opacity: 0;
+  position: absolute;
+  display: inline-block;
+  top: 3px;
+  color: white;
+  transition: opacity 0.2s ease-in;
+  width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+// nav > div > div {
+//   height: 100%;
+// }
 
 .header-img {
   width: 600px;
