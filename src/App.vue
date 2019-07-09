@@ -387,5 +387,8 @@ video::-webkit-media-controls {
   position: absolute;
   z-index: 1;
   margin: 15px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
 }
 </style>
