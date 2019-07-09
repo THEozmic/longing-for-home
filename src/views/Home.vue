@@ -30,7 +30,11 @@
           v-on:go="go"
           :scroll="scroll"
           :video="view.video"
+          :videos="view.videos"
+          :tapes="view.tapes"
           :parentCurrent="current"
+          :pageIndex="index"
+          :bio="view.bio"
         />
       </section>
     </div>
@@ -87,8 +91,19 @@ export default {
           component: () => import("../components/PageSix.vue")
         },
         {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/PageSeven.vue")
+          videos: ["https://player.vimeo.com/video/345472223"],
+          bio: {
+            name: "MUNAWWAR and DILNUR NURMUHAMMAD",
+            age: "18 and 16 YEARS",
+            hometown: "Hotan",
+            arrived: "June, 2017",
+            family: [
+              "Mother - Disappeared in China",
+              "Father - Jailed in China",
+              "Seven siblings in China"
+            ]
+          },
+          component: () => import("../components/PillarPage.vue")
         },
         {
           video: "./videos/INTRO_video03.mp4",
