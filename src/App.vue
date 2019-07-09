@@ -307,7 +307,8 @@ video::-webkit-media-controls {
   color: white;
 }
 
-.bio-pane {
+.bio-pane,
+.pop-up {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -319,7 +320,8 @@ video::-webkit-media-controls {
   transition: all 0.3s ease-in;
 }
 
-.bio-pane.visible {
+.bio-pane.visible,
+.pop-up.visible {
   display: block;
   opacity: 1;
 }
@@ -337,7 +339,8 @@ video::-webkit-media-controls {
   overflow: hidden;
 }
 
-.bio-content::before {
+.bio-content::before,
+.pop-up-content::before {
   content: "";
   position: absolute;
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAHklEQVQoU2NkIAIwQtVIQeln2PSQpAivpTCThpwiABSMAgoOyKRFAAAAAElFTkSuQmCC)
@@ -382,7 +385,7 @@ video::-webkit-media-controls {
   font-size: 0.8em;
 }
 
-.bio-close-btn {
+.close-btn {
   right: 0;
   position: absolute;
   z-index: 1;
@@ -390,5 +393,38 @@ video::-webkit-media-controls {
   width: 40px;
   height: 40px;
   padding: 0;
+}
+
+.pop-up-content {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  position: relative;
+  overflow: hidden;
+  padding: 60px;
+}
+
+.tabs {
+  margin: 0 5%;
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    margin-bottom: 30px;
+
+    li {
+      display: inline-block;
+      display: inline-block;
+      margin-right: 5em;
+      font-size: 0.7em;
+      cursor: pointer;
+      position: relative;
+
+      &[aria-selected="true"] {
+        border-bottom: 2px solid;
+      }
+    }
+  }
 }
 </style>

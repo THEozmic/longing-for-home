@@ -35,6 +35,7 @@
           :parentCurrent="current"
           :pageIndex="index"
           :bio="view.bio"
+          :popup="view.popup"
         />
       </section>
     </div>
@@ -106,23 +107,26 @@ export default {
           component: () => import("../components/PillarPage.vue")
         },
         {
-          video: "./videos/INTRO_video03.mp4",
-          bio: {
-            name: "MUNAWWAR and DILNUR NURMUHAMMAD",
-            age: "18 and 16 YEARS",
-            hometown: "Hotan",
-            arrived: "June, 2017",
-            family: [
-              "Mother - Disappeared in China",
-              "Father - Jailed in China",
-              "Seven siblings in China"
+          videos: ["https://player.vimeo.com/video/345474463"],
+          popup: {
+            tabs: [
+              {
+                title: "FIGHTING SEPARATISM",
+                content: () =>
+                  import("../components/tabs/FightingSeparatism.vue")
+              },
+              {
+                title: "RELIGIOUS EXTREMISM",
+                content: () =>
+                  import("../components/tabs/ReligiousExtremism.vue")
+              },
+              {
+                title: "THE SCALE OF THE USE",
+                content: () => import("../components/tabs/TheScaleOfUse.vue")
+              }
             ]
           },
-          component: () => import("../components/PageEight.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/PageNine.vue")
+          component: () => import("../components/PillarPage.vue")
         },
         {
           video: "./videos/INTRO_video03.mp4",
