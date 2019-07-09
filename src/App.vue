@@ -9,7 +9,9 @@
   box-sizing: border-box;
   font-family: "Oswald", sans-serif;
   font-size: 1.05em;
+  letter-spacing: 1.5px;
 }
+
 h1 {
   display: inline-block;
 }
@@ -288,5 +290,102 @@ video::-webkit-media-controls {
   background-repeat: no-repeat;
   cursor: pointer;
   outline: none;
+}
+
+.learn-more-btn {
+  position: absolute;
+  right: 40px;
+  top: 40px;
+}
+
+.black-btn {
+  background-color: rgba(0, 0, 0, 0.78);
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1;
+  color: white;
+}
+
+.bio-pane {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  right: 0;
+  background-color: rgba(23, 35, 34, 0.39);
+  display: none;
+  opacity: 0;
+  transition: all 0.3s ease-in;
+}
+
+.bio-pane.visible {
+  display: block;
+  opacity: 1;
+}
+
+.bio-wrapper {
+  margin: 60px;
+}
+
+.bio-content {
+  width: 430px;
+  height: 100%;
+  background-color: white;
+  float: right;
+  position: relative;
+  overflow: hidden;
+}
+
+.bio-content::before {
+  content: "";
+  position: absolute;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAHklEQVQoU2NkIAIwQtVIQeln2PSQpAivpTCThpwiABSMAgoOyKRFAAAAAElFTkSuQmCC)
+    repeat;
+  transform: rotate(3deg);
+  left: -50%;
+  top: -50%;
+  width: 200%;
+  height: 200%;
+}
+
+.bio-name {
+  font-size: 1.8em;
+  line-height: 50px;
+  font-weight: bolder;
+}
+
+.bio-rest {
+  margin: 0;
+  margin-top: 50px;
+  padding: 0;
+  list-style: none;
+}
+
+.bio-item {
+  font-size: 0.7em;
+  margin-bottom: 25px;
+  line-height: 25px;
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      margin: 0 0 15px;
+    }
+  }
+}
+
+.bio-item-label {
+  font-size: 0.8em;
+}
+
+.bio-close-btn {
+  right: 0;
+  position: absolute;
+  z-index: 1;
+  margin: 15px;
 }
 </style>

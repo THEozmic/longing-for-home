@@ -1,6 +1,38 @@
 <template>
   <div @wheel="localScroll">
-    <div class="embed-container" id="yooo">
+    <button class="learn-more-btn black-btn" v-if="bio" @click="isBioVisible = true">LEARN MORE</button>
+    <aside
+      :class="['bio-pane', `${isBioVisible ? 'visible' : ''}`]"
+      @click.self="isBioVisible = false"
+    >
+      <button @click="isBioVisible = false" class="bio-close-btn black-btn">&#x274C;</button>
+      <div class="bio-content">
+        <div class="bio-wrapper">
+          <div class="bio-name">{{bio.name}}</div>
+          <ul class="bio-rest">
+            <li class="bio-item">
+              <div class="bio-item-label">AGE:</div>
+              <div>{{bio.age}}</div>
+            </li>
+            <li class="bio-item">
+              <div class="bio-item-label">HOMETOWN:</div>
+              <div>{{bio.hometown}}</div>
+            </li>
+            <li class="bio-item">
+              <div class="bio-item-label">DATE ARRIVED TURKEY:</div>
+              <div>{{bio.arrived}}</div>
+            </li>
+            <li class="bio-item">
+              <div class="bio-item-label">FAMILY:</div>
+              <ul>
+                <li v-for="(fam, index) in bio.family" :key="index">{{fam}}</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+    <div class="embed-container">
       <iframe
         v-for="(video, index) in videos"
         :key="index"
@@ -43,11 +75,13 @@ export default {
     "parentCurrent",
     "pageIndex",
     "isFirstPage",
-    "tapes"
+    "tapes",
+    "bio"
   ],
   data() {
     return {
       current: 0,
+      isBioVisible: false,
       player: null,
       backgroundAudio: null,
       audios: {

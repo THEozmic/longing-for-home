@@ -93,6 +93,21 @@ export default {
         {
           videos: ["https://player.vimeo.com/video/345472223"],
           bio: {
+            name: "ILMINUR MUTELLIP",
+            age: "22 YEARS",
+            hometown: "HAMI; KUMUL",
+            arrived: "2017",
+            family: [
+              "Mother - Recently released from detention; Lives in China",
+              "Father - Detained in China",
+              "Two sisters in China"
+            ]
+          },
+          component: () => import("../components/PillarPage.vue")
+        },
+        {
+          video: "./videos/INTRO_video03.mp4",
+          bio: {
             name: "MUNAWWAR and DILNUR NURMUHAMMAD",
             age: "18 and 16 YEARS",
             hometown: "Hotan",
@@ -103,10 +118,6 @@ export default {
               "Seven siblings in China"
             ]
           },
-          component: () => import("../components/PillarPage.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
           component: () => import("../components/PageEight.vue")
         },
         {
