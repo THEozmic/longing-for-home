@@ -2,7 +2,7 @@
   <div>
     <div class="embed-container">
       <iframe
-        src="https://player.vimeo.com/video/345639171?background=1&autoplay=1&loop=1"
+        src="https://player.vimeo.com/video/345440635?background=1&autoplay=1&loop=1"
         frameborder="0"
         allow="autoplay; fullscreen"
         allowfullscreen
@@ -13,9 +13,6 @@
           <p>This experience has sound</p>
           <button class="button" @click="next">Begin</button>
         </div>
-        <!-- <video autoplay loop muted>
-        <source :src="video" type="video/mp4" />
-        </video>-->
       </div>
       <div v-else>
         <div @wheel="scroll">

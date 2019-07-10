@@ -5,13 +5,8 @@
     </div>
     <nav v-if="(current >= 1) && (current <= 4)">
       <ul>
-        <li
-          v-for="(view, index) in views"
-          :key="index"
-          v-if="view.isIntro"
-          @click="() => { go(index); next(); }"
-        >
-          <div class="tooltip">{{view.title}}</div>
+        <li v-for="(nav, index) in navs" :key="index" @click="() => { go(index); next(); }">
+          <div class="tooltip">{{nav.title}}</div>
           <div class="nav-item"></div>
         </li>
       </ul>
@@ -56,16 +51,27 @@ export default {
     return {
       isStarted: false,
       ICON: STORIES_ICON,
+      navs: [
+        {
+          title: "Tooltip Text 1"
+        },
+        {
+          title: "Tooltip Text 2"
+        },
+        {
+          title: "Tooltip Text 3"
+        },
+        {
+          title: "Tooltip Text 4"
+        }
+      ],
       views: [
         {
-          title: "Tooltip text 1",
           video: "./videos/INTRO_video01_InstructionsBG.mp4",
-          isIntro: true,
           component: () => import("../components/PageOne.vue")
         },
         {
-          title: "Tooltip text 2",
-          videos: ["345440635"],
+          videos: ["346702899", "346702951", "346702980"],
           tapes: [
             {
               img: "TEMP_TITLE_CARDS-01",
@@ -81,18 +87,11 @@ export default {
               img: "TEMP_TITLE_CARDS-03",
               Y: 200,
               X: -15
-            },
-            {
-              img: "TEMP_TITLE_CARDS-04",
-              Y: 200,
-              X: -15
             }
           ],
-          isIntro: true,
           component: () => import("../components/Slide.vue")
         },
         {
-          title: "Tooltip text 3",
           videos: ["345442052"],
           tapes: [
             {
@@ -116,11 +115,9 @@ export default {
               X: -15
             }
           ],
-          isIntro: true,
           component: () => import("../components/Slide.vue")
         },
         {
-          title: "Tooltip text 4",
           videos: ["345467379"],
           tapes: [
             {
@@ -134,7 +131,6 @@ export default {
               X: -15
             }
           ],
-          isIntro: true,
           component: () => import("../components/Slide.vue")
         },
         {
@@ -191,119 +187,119 @@ export default {
         {
           videos: ["345724331"],
           component: () => import("../components/Slide.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/PageEleven.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/PageTwelve.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page13.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page14.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page15.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page16.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page16.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page17.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page18.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page19.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page20.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page21.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page22.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page23.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page24.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page25.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page25.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page26.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page27.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page28.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page29.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page30.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page31.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page32.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page33.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page34.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page35.vue")
-        },
-        {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/Page35.vue")
         }
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/PageEleven.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/PageTwelve.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page13.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page14.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page15.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page16.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page16.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page17.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page18.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page19.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page20.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page21.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page22.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page23.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page24.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page25.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page25.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page26.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page27.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page28.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page29.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page30.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page31.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page32.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page33.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page34.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page35.vue")
+        // },
+        // {
+        //   video: "./videos/INTRO_video03.mp4",
+        //   component: () => import("../components/Page35.vue")
+        // }
       ],
       current: 0
     };

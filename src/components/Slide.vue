@@ -55,7 +55,6 @@
     </aside>
 
     <button class="learn-more-btn black-btn" v-if="popup" @click="isPopupVisible = true">READ MORE</button>
-
     <aside :class="['pop-up', `${isPopupVisible ? 'visible' : ''}`]" v-if="popup" @wheel.stop>
       <button @click="isPopupVisible = false" class="close-btn black-btn">
         <svg
@@ -87,23 +86,42 @@
       </div>
     </aside>
 
-    <div class="embed-container">
+    <div :class="`embed-container`">
       <div
-        :id="`page-${pageIndex + 1}-iframe`"
+        class="plyr__video-embed"
+        v-if="videos.length < 2"
+        :id="`page-${pageIndex + 1}-iframe-${0}`"
+      >
+        <iframe
+          :src="`https://player.vimeo.com/video/${videos && videos[0]}?loop=true&amp;byline=false&amp;portrait=false&amp;title=false&amp;speed=true&amp;transparent=0&amp;gesture=media`"
+          allowfullscreen
+          allowtransparency
+          allow="autoplay"
+        ></iframe>
+      </div>
+      <div
+        :id="`page-${pageIndex + 1}-iframe-${index}`"
+        class="plyr__video-embed"
+        v-else
+        v-for="(video, index) in videos"
+        :key="index"
+        :style="`height: ${players ? (players[index].playing ? 'auto' : '0px') : 'auto'}`"
+      >
+        <iframe
+          :src="`https://player.vimeo.com/video/${video}?loop=true&amp;byline=false&amp;portrait=false&amp;title=false&amp;speed=true&amp;transparent=0&amp;gesture=media`"
+          allowfullscreen
+          allowtransparency
+          allow="autoplay"
+        ></iframe>
+      </div>
+      <!-- <div
+        :style="`height: ${players && players[index].playing ? 'auto' : '0px'}`"
+        :id="`page-${pageIndex + 1}-iframe-${index}`"
         data-plyr-provider="vimeo"
         :data-plyr-embed-id="video"
         v-for="(video, index) in videos"
         :key="index"
-      >
-        <!-- <iframe
-          v-for="(video, index) in videos"
-          :key="index"
-          :src="`${video}?background=0&autoplay=0&loop=1`"
-          frameborder="0"
-          allow="autoplay; fullscreen"
-          allowfullscreen
-        ></iframe>-->
-      </div>
+      ></div>-->
     </div>
 
     <div
@@ -126,7 +144,6 @@ import { debounce } from "underscore";
 import { setTimeout } from "timers";
 import { Tabs, Tab } from "vue-slim-tabs";
 
-import Player from "@vimeo/player";
 import Plyr from "plyr";
 
 import AUDIO from "../assets/audios/LANGUAGE_TEMP_MUSIC.wav";
@@ -156,6 +173,7 @@ export default {
       isBioVisible: false,
       isPopupVisible: false,
       player: null,
+      players: null,
       backgroundAudio: null,
       audios: {
         language_background_audio: null,
@@ -208,12 +226,19 @@ export default {
       }
     },
     isVisible(val) {
-      console.log(this.player.muted);
       if (val) {
-        this.player.play();
-        if (!this.bio) {
-          this.player.volume = 0;
+        if (this.player) {
+          this.player.play();
+
+          if (!this.bio) {
+            this.player.volume = 0;
+          }
         }
+
+        if (this.players) {
+          this.players[0].play();
+        }
+
         if (!this.tapes) return;
         setTimeout(() => {
           anime({
@@ -223,7 +248,9 @@ export default {
           });
         }, 500);
       } else {
-        this.player.stop();
+        if (this.player) {
+          this.player.stop();
+        }
       }
     }
   },
@@ -232,6 +259,10 @@ export default {
   },
   methods: {
     localScroll(event) {
+      if (this.players) {
+        this.players[this.current].stop();
+      }
+
       if (event.wheelDelta > 0) {
         this.prev(event);
       } else {
@@ -239,6 +270,10 @@ export default {
       }
 
       if (!this.tapes) return;
+
+      if (this.players) {
+        this.players[this.current].play();
+      }
 
       setTimeout(() => {
         anime({
@@ -281,13 +316,24 @@ export default {
     }
   },
   mounted() {
-    this.player = new Plyr(`#page-${this.pageIndex + 1}-iframe`, {
-      ...(this.bio
-        ? { controls: ["progress", "play-large"] }
-        : { controls: [] }),
-      debug: true,
-      loop: { active: true }
-    });
+    if (this.videos.length === 1) {
+      this.player = new Plyr(`#page-${this.pageIndex + 1}-iframe-0`, {
+        ...(this.bio
+          ? { controls: ["progress", "play-large"] }
+          : { controls: [] }),
+        debug: true,
+        loop: { active: true }
+      });
+    } else {
+      this.players = this.videos.map(
+        (p, i) =>
+          new Plyr(`#page-${this.pageIndex + 1}-iframe-${i}`, {
+            loop: { active: true },
+            debug: true,
+            controls: []
+          })
+      );
+    }
 
     this.audios.language_background_audio = new Audio(
       language_background_audio
