@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
-import PageThree from "./components/PageThree.vue";
 
 Vue.use(Router);
 

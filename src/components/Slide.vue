@@ -25,30 +25,32 @@
           </g>
         </svg>
       </button>
-      <div class="bio-content">
-        <div class="bio-wrapper">
-          <div class="bio-name">{{bio.name}}</div>
-          <ul class="bio-rest">
-            <li class="bio-item">
-              <div class="bio-item-label">AGE:</div>
-              <div>{{bio.age}}</div>
-            </li>
-            <li class="bio-item">
-              <div class="bio-item-label">HOMETOWN:</div>
-              <div>{{bio.hometown}}</div>
-            </li>
-            <li class="bio-item">
-              <div class="bio-item-label">DATE ARRIVED TURKEY:</div>
-              <div>{{bio.arrived}}</div>
-            </li>
-            <li class="bio-item">
-              <div class="bio-item-label">FAMILY:</div>
-              <ul>
-                <li v-for="(fam, index) in bio.family" :key="index">{{fam}}</li>
-              </ul>
-            </li>
-          </ul>
-        </div>
+      <div class="bio-content-wrapper">
+        <simplebar data-simplebar-auto-hide="false" class="bio-content">
+          <div class="bio-wrapper">
+            <div class="bio-name">{{bio.name}}</div>
+            <ul class="bio-rest">
+              <li class="bio-item">
+                <div class="bio-item-label">AGE:</div>
+                <div>{{bio.age}}</div>
+              </li>
+              <li class="bio-item">
+                <div class="bio-item-label">HOMETOWN:</div>
+                <div>{{bio.hometown}}</div>
+              </li>
+              <li class="bio-item">
+                <div class="bio-item-label">DATE ARRIVED TURKEY:</div>
+                <div>{{bio.arrived}}</div>
+              </li>
+              <li class="bio-item">
+                <div class="bio-item-label">FAMILY:</div>
+                <ul>
+                  <li v-for="(fam, index) in bio.family" :key="index">{{fam}}</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </simplebar>
       </div>
     </aside>
 
@@ -77,7 +79,9 @@
       <div class="pop-up-content">
         <tabs class="tabs">
           <tab :title="tab.title" v-for="(tab, index) in popup.tabs" :key="index">
-            <component :is="tab.content" />
+            <simplebar data-simplebar-auto-hide="false" style="height: calc(100vh - 132px)">
+              <component :is="tab.content" class="tab-content" />
+            </simplebar>
           </tab>
         </tabs>
       </div>
@@ -114,6 +118,9 @@
 </template>
 
 <script>
+import simplebar from "simplebar-vue";
+import "simplebar/dist/simplebar.css";
+
 import anime from "animejs";
 import { debounce } from "underscore";
 import { setTimeout } from "timers";
@@ -128,7 +135,7 @@ import family_background_audio from "../assets/audios/FAMILY_TEMP_MUSIC.wav";
 import religion_background_audio from "../assets/audios/RELIGION_TEMP_MUSIC.wav";
 
 export default {
-  name: "PillarPage",
+  name: "Slide",
   props: [
     "isVisible",
     "scroll",
@@ -140,6 +147,9 @@ export default {
     "bio",
     "popup"
   ],
+  components: {
+    simplebar
+  },
   data() {
     return {
       current: 0,
@@ -158,14 +168,14 @@ export default {
     isBioVisible(val) {
       if (val) {
         anime({
-          targets: ".bio-content",
+          targets: ".bio-content-wrapper",
           translateX: -430,
           easing: "linear",
           duration: 300
         });
       } else {
         anime({
-          targets: ".bio-content",
+          targets: ".bio-content-wrapper",
           translateX: 430,
           easing: "linear",
           duration: 300
@@ -198,8 +208,12 @@ export default {
       }
     },
     isVisible(val) {
+      console.log(this.player.muted);
       if (val) {
         this.player.play();
+        if (!this.bio) {
+          this.player.volume = 0;
+        }
         if (!this.tapes) return;
         setTimeout(() => {
           anime({
@@ -240,11 +254,30 @@ export default {
       }, 500);
     },
     next(event) {
-      this.scroll(event);
+      if (!this.tapes) {
+        this.scroll(event);
+        return;
+      }
+
+      if (this.current + 1 === this.tapes.length) {
+        this.scroll(event);
+        return;
+      } else {
+        this.current += 1;
+      }
     },
     prev(event) {
       if (this.isFirstPage) return;
-      this.scroll(event);
+      if (!this.tapes) {
+        this.scroll(event);
+        return;
+      }
+      if (this.current === 0) {
+        this.scroll(event);
+        return;
+      } else {
+        this.current -= 1;
+      }
     }
   },
   mounted() {

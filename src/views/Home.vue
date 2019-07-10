@@ -65,21 +65,77 @@ export default {
         },
         {
           title: "Tooltip text 2",
-          video: "./videos/INTRO_video02.mp4",
+          videos: ["345440635"],
+          tapes: [
+            {
+              img: "TEMP_TITLE_CARDS-01",
+              Y: 200,
+              X: 0
+            },
+            {
+              img: "TEMP_TITLE_CARDS-02",
+              Y: 200,
+              X: 0
+            },
+            {
+              img: "TEMP_TITLE_CARDS-03",
+              Y: 200,
+              X: -15
+            },
+            {
+              img: "TEMP_TITLE_CARDS-04",
+              Y: 200,
+              X: -15
+            }
+          ],
           isIntro: true,
-          component: () => import("../components/PageTwo.vue")
+          component: () => import("../components/Slide.vue")
         },
         {
           title: "Tooltip text 3",
-          video: "./videos/INTRO_video03.mp4",
+          videos: ["345442052"],
+          tapes: [
+            {
+              img: "TEMP_TITLE_CARDS-05",
+              Y: 200,
+              X: -15
+            },
+            {
+              img: "TEMP_TITLE_CARDS-06",
+              Y: 200,
+              X: -15
+            },
+            {
+              img: "TEMP_TITLE_CARDS-07",
+              Y: 200,
+              X: -15
+            },
+            {
+              img: "TEMP_TITLE_CARDS-08",
+              Y: 200,
+              X: -15
+            }
+          ],
           isIntro: true,
-          component: () => import("../components/PageThree.vue")
+          component: () => import("../components/Slide.vue")
         },
         {
           title: "Tooltip text 4",
-          video: "./videos/INTRO_video03.mp4",
+          videos: ["345467379"],
+          tapes: [
+            {
+              img: "TEMP_TITLE_CARDS-07",
+              Y: 200,
+              X: -15
+            },
+            {
+              img: "TEMP_TITLE_CARDS-08",
+              Y: 200,
+              X: -15
+            }
+          ],
           isIntro: true,
-          component: () => import("../components/PageFour.vue")
+          component: () => import("../components/Slide.vue")
         },
         {
           videos: ["345718645"],
@@ -90,7 +146,7 @@ export default {
               X: 0
             }
           ],
-          component: () => import("../components/PillarPage.vue")
+          component: () => import("../components/Slide.vue")
         },
         {
           component: () => import("../components/Pillars.vue")
@@ -108,7 +164,7 @@ export default {
               "Two sisters in China"
             ]
           },
-          component: () => import("../components/PillarPage.vue")
+          component: () => import("../components/Slide.vue")
         },
         {
           videos: ["345474463"],
@@ -130,11 +186,11 @@ export default {
               }
             ]
           },
-          component: () => import("../components/PillarPage.vue")
+          component: () => import("../components/Slide.vue")
         },
         {
           videos: ["345724331"],
-          component: () => import("../components/PillarPage.vue")
+          component: () => import("../components/Slide.vue")
         },
         {
           video: "./videos/INTRO_video03.mp4",

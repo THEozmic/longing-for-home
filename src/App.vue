@@ -364,7 +364,7 @@ video::-webkit-media-controls {
   margin: 60px;
 }
 
-.bio-content {
+.bio-content-wrapper {
   width: 430px;
   height: 100%;
   background-color: white;
@@ -372,6 +372,11 @@ video::-webkit-media-controls {
   position: relative;
   overflow: hidden;
   right: -430px;
+}
+
+.bio-content {
+  height: 100vh;
+  font-size: 0.8em;
 }
 
 .bio-content::before,
@@ -441,6 +446,10 @@ video::-webkit-media-controls {
 
 .tabs {
   margin: 0 5%;
+
+  .tab-content {
+    font-size: 0.7em;
+  }
 
   ul {
     margin: 0;
