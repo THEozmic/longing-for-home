@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: "PageSix",
+  name: "Pillars",
   data() {
     return {};
   },

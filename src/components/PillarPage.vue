@@ -5,6 +5,7 @@
       :class="['bio-pane', `${isBioVisible ? 'visible' : ''}`]"
       @click.self="isBioVisible = false"
       v-if="bio"
+      @wheel.stop
     >
       <button @click="isBioVisible = false" class="close-btn black-btn">
         <svg
@@ -53,7 +54,7 @@
 
     <button class="learn-more-btn black-btn" v-if="popup" @click="isPopupVisible = true">READ MORE</button>
 
-    <aside :class="['pop-up', `${isPopupVisible ? 'visible' : ''}`]" v-if="popup">
+    <aside :class="['pop-up', `${isPopupVisible ? 'visible' : ''}`]" v-if="popup" @wheel.stop>
       <button @click="isPopupVisible = false" class="close-btn black-btn">
         <svg
           width="20"
@@ -83,15 +84,22 @@
     </aside>
 
     <div class="embed-container">
-      <iframe
+      <div
+        :id="`page-${pageIndex + 1}-iframe`"
+        data-plyr-provider="vimeo"
+        :data-plyr-embed-id="video"
         v-for="(video, index) in videos"
         :key="index"
-        :src="`${video}?background=0&autoplay=0&loop=1`"
-        frameborder="0"
-        allow="autoplay; fullscreen"
-        allowfullscreen
-        :id="`page-${pageIndex + 1}-iframe`"
-      ></iframe>
+      >
+        <!-- <iframe
+          v-for="(video, index) in videos"
+          :key="index"
+          :src="`${video}?background=0&autoplay=0&loop=1`"
+          frameborder="0"
+          allow="autoplay; fullscreen"
+          allowfullscreen
+        ></iframe>-->
+      </div>
     </div>
 
     <div
@@ -112,6 +120,8 @@ import { setTimeout } from "timers";
 import { Tabs, Tab } from "vue-slim-tabs";
 
 import Player from "@vimeo/player";
+import Plyr from "plyr";
+
 import AUDIO from "../assets/audios/LANGUAGE_TEMP_MUSIC.wav";
 import language_background_audio from "../assets/audios/LANGUAGE_TEMP_MUSIC.wav";
 import family_background_audio from "../assets/audios/FAMILY_TEMP_MUSIC.wav";
@@ -145,6 +155,23 @@ export default {
     };
   },
   watch: {
+    isBioVisible(val) {
+      if (val) {
+        anime({
+          targets: ".bio-content",
+          translateX: -430,
+          easing: "linear",
+          duration: 300
+        });
+      } else {
+        anime({
+          targets: ".bio-content",
+          translateX: 430,
+          easing: "linear",
+          duration: 300
+        });
+      }
+    },
     parentCurrent(val) {
       if (val >= 6 && val < 17) {
         this.audios.language_background_audio.play();
@@ -182,7 +209,7 @@ export default {
           });
         }, 500);
       } else {
-        this.player.pause();
+        this.player.stop();
       }
     }
   },
@@ -221,8 +248,13 @@ export default {
     }
   },
   mounted() {
-    let iframe = document.querySelector(`#page-${this.pageIndex + 1}-iframe`);
-    this.player = new Player(iframe);
+    this.player = new Plyr(`#page-${this.pageIndex + 1}-iframe`, {
+      ...(this.bio
+        ? { controls: ["progress", "play-large"] }
+        : { controls: [] }),
+      debug: true,
+      loop: { active: true }
+    });
 
     this.audios.language_background_audio = new Audio(
       language_background_audio

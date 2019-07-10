@@ -43,8 +43,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
-
 import anime from "animejs";
 import Hammer from "hammerjs";
 import { debounce } from "underscore";
@@ -84,15 +82,21 @@ export default {
           component: () => import("../components/PageFour.vue")
         },
         {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/PageFive.vue")
+          videos: ["345718645"],
+          tapes: [
+            {
+              img: "TEMP_TITLE_CARDS-01",
+              Y: 200,
+              X: 0
+            }
+          ],
+          component: () => import("../components/PillarPage.vue")
         },
         {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/PageSix.vue")
+          component: () => import("../components/Pillars.vue")
         },
         {
-          videos: ["https://player.vimeo.com/video/345472223"],
+          videos: ["345472223"],
           bio: {
             name: "ILMINUR MUTELLIP",
             age: "22 YEARS",
@@ -107,7 +111,7 @@ export default {
           component: () => import("../components/PillarPage.vue")
         },
         {
-          videos: ["https://player.vimeo.com/video/345474463"],
+          videos: ["345474463"],
           popup: {
             tabs: [
               {
@@ -129,8 +133,8 @@ export default {
           component: () => import("../components/PillarPage.vue")
         },
         {
-          video: "./videos/INTRO_video03.mp4",
-          component: () => import("../components/PageTen.vue")
+          videos: ["345724331"],
+          component: () => import("../components/PillarPage.vue")
         },
         {
           video: "./videos/INTRO_video03.mp4",
