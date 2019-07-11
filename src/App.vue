@@ -484,5 +484,16 @@ video::-webkit-media-controls {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.89);
   z-index: 1;
+  display: flex;
+  justify-content: space-between;
+
+  .footer-btn {
+    color: #fff;
+    background-color: transparent;
+    border: 0;
+    padding: 8px;
+    cursor: pointer;
+    line-height: 0;
+  }
 }
 </style>
