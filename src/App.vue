@@ -475,4 +475,13 @@ video::-webkit-media-controls {
 .vp-controls-wrapper {
   display: none;
 }
+
+.footer {
+  height: 40px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
 </style>

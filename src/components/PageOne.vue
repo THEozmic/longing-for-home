@@ -27,46 +27,19 @@
 </template>
 
 <script>
-import AUDIO from "../assets/audios/INTRO_TEMP_MUSIC.wav";
-
 export default {
   name: "PageOne",
   props: ["video", "scroll", "parentCurrent"],
   data() {
     return {
-      current: 0,
-      backgroundAudio: null
+      current: 0
     };
   },
-  watch: {
-    parentCurrent(val) {
-      console.log(this.parentCurrent, ">>>");
-      if (val <= 5) {
-        this.backgroundAudio.play();
-      } else {
-        this.backgroundAudio.pause();
-      }
-    }
-  },
+
   methods: {
     next() {
-      this.backgroundAudio.play();
       this.current = 1;
-    }
-  },
-  mounted() {
-    this.backgroundAudio = new Audio(AUDIO);
-    if (typeof this.backgroundAudio.loop == "boolean") {
-      this.backgroundAudio.loop = true;
-    } else {
-      this.backgroundAudio.addEventListener(
-        "ended",
-        function() {
-          this.currentTime = 0;
-          this.play();
-        },
-        false
-      );
+      this.$emit("play-audio", "intro_background_audio");
     }
   }
 };

@@ -23,8 +23,8 @@
           v-on:next="next"
           v-on:prev="prev"
           v-on:go="go"
+          v-on:play-audio="playAudio"
           :scroll="scroll"
-          :video="view.video"
           :videos="view.videos"
           :tapes="view.tapes"
           :parentCurrent="current"
@@ -34,6 +34,7 @@
         />
       </section>
     </div>
+    <div class="footer"></div>
   </div>
 </template>
 
@@ -41,14 +42,27 @@
 import anime from "animejs";
 import Hammer from "hammerjs";
 import { debounce } from "underscore";
+
 import STORIES_ICON from "../assets/images/Icons_STORIES_WHITE.png";
 import STORIES_ICON_1 from "../assets/images/Icons_STORIES_WHITE.png";
 import INTRO_ICON from "../assets/images/INTRODUCTION_ICON-26.png";
+
+import language_background_audio from "../assets/audios/LANGUAGE_TEMP_MUSIC.wav";
+import family_background_audio from "../assets/audios/FAMILY_TEMP_MUSIC.wav";
+import religion_background_audio from "../assets/audios/RELIGION_TEMP_MUSIC.wav";
+import intro_background_audio from "../assets/audios/INTRO_TEMP_MUSIC.wav";
 
 export default {
   name: "home",
   data() {
     return {
+      audios: {
+        intro_background_audio: null,
+        language_background_audio: null,
+        family_background_audio: null,
+        religion_background_audio: null
+      },
+      playing_audio: null,
       isStarted: false,
       ICON: STORIES_ICON,
       navs: [
@@ -67,7 +81,7 @@ export default {
       ],
       views: [
         {
-          video: "./videos/INTRO_video01_InstructionsBG.mp4",
+          audio: "intro_background_audio",
           component: () => import("../components/PageOne.vue")
         },
         {
@@ -148,6 +162,7 @@ export default {
           component: () => import("../components/Pillars.vue")
         },
         {
+          audio: "language_background_audio",
           videos: ["345472223"],
           bio: {
             name: "ILMINUR MUTELLIP",
@@ -307,21 +322,32 @@ export default {
   created() {
     this.scroll = debounce(this.scroll, 100);
   },
-  computed: {
-    filteredViews() {
-      return this.views.filter((view, index) => index == this.current);
-    }
-  },
   watch: {
     current(val) {
       if (val === 6) {
         this.ICON = STORIES_ICON_1;
       }
 
+      if (this.views[val].audio) {
+        if (this.views[val].audio !== this.playing_audio) {
+          this.audios.language_background_audio.pause();
+          this.audios.religion_background_audio.pause();
+          this.audios.family_background_audio.pause();
+          this.audios.intro_background_audio.pause();
+
+          this.audios[this.views[val].audio].play();
+          this.playing_audio = this.views[val].audio;
+        }
+      }
+
       this.updateNav();
     }
   },
   methods: {
+    playAudio(name) {
+      this.audios[name].play();
+      this.playing_audio = name;
+    },
     togglePillars() {
       if (this.current === 5) {
         this.current = 0;
@@ -361,22 +387,10 @@ export default {
       if (this.current === this.views.length) return;
 
       this.current += 1;
-      console.log(this.current, "oooohhhyeeeahhh");
     },
     prev() {
       if (this.current === 0) return;
       this.current -= 1;
-      console.log("yeah", this.current);
-
-      // let currentNav = document.querySelector(
-      //   `nav > div:nth-child(${this.current + 2})`
-      // );
-
-      // if (!currentNav) return;
-      // currentNav.setAttribute(
-      //   "style",
-      //   "background-color: rgba(255, 255, 255, 0.25)"
-      // );
     },
     updateNav(isUp) {
       let navs = document.querySelectorAll("nav li");
@@ -399,71 +413,39 @@ export default {
         }, 500);
       })(this);
     },
-    onPause() {
-      this.timeline.pause();
-    },
-    onPlay() {
-      this.timeline.play();
-    },
-    onStop() {
-      if (!this.isStarted) return;
-      this.timeline.restart();
-      this.timeline.pause();
-      this.isStarted = false;
-    },
-    onStart() {
-      if (this.isStarted) return;
-
-      this.isStarted = true;
-
-      this.timeline = anime.timeline({
-        autoplay: true,
-        duration: 10000,
-        easing: "linear",
-        loop: true
-      });
-
-      this.views.forEach((view, index) => {
-        this.timeline.add({
-          targets: document.querySelectorAll("nav > div")[index].children[0],
-          width: "100%",
-          changeBegin: a => {
-            this.current = index;
-            this.updateBG_VIDEO(view.video);
-          }
-        });
-      });
-
-      let hammertime = new Hammer(document.querySelector(".slides"));
-
-      hammertime.on("press", e => {
-        this.timeline.pause();
-      });
-
-      hammertime.on("pressup", e => {
-        this.timeline.play();
-      });
-
-      hammertime.on("tap", e => {
-        if (e.center.x > window.innerWidth / 2) {
-          if (this.current < this.views.length - 1) {
-            this.current += 1;
-
-            this.timeline.pause();
-            this.timeline.seek(this.current * 10000);
-            this.timeline.play();
-          }
-        } else {
-          if (this.current > 0) {
-            this.current -= 1;
-
-            this.timeline.pause();
-            this.timeline.seek(this.current * 10000);
-            this.timeline.play();
-          }
-        }
-      });
+    loadBackgroundAudio(name, audio) {
+      this.audios[name] = new Audio(audio);
+      if (typeof this.audios[name].loop == "boolean") {
+        this.audios[name].loop = true;
+      } else {
+        this.audios[name].addEventListener(
+          "ended",
+          function() {
+            this.currentTime = 0;
+            this.play();
+          },
+          false
+        );
+      }
     }
+  },
+  mounted() {
+    this.loadBackgroundAudio(
+      "language_background_audio",
+      language_background_audio
+    );
+
+    this.loadBackgroundAudio(
+      "religion_background_audio",
+      religion_background_audio
+    );
+
+    this.loadBackgroundAudio(
+      "family_background_audio",
+      family_background_audio
+    );
+
+    this.loadBackgroundAudio("intro_background_audio", intro_background_audio);
   }
 };
 </script>
