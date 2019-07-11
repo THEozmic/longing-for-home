@@ -221,9 +221,9 @@ video::-webkit-media-controls {
 
 .embed-container {
   position: relative;
-  padding-bottom: 56.25%;
+  padding-bottom: calc(56.25% - 40px);
   overflow: hidden;
-  height: 100vh;
+  height: calc(100vh - 40px);
 
   .plyr--full-ui input[type="range"] {
     color: white;
@@ -244,7 +244,7 @@ video::-webkit-media-controls {
   }
 
   .plyr__controls {
-    bottom: 0;
+    bottom: 40px;
     height: 10px;
     padding: 45px 300px !important;
     position: fixed;
@@ -352,6 +352,7 @@ video::-webkit-media-controls {
   display: none;
   opacity: 0;
   transition: all 0.3s ease-in;
+  height: calc(100vh - 40px);
 }
 
 .bio-pane.visible,
@@ -481,7 +482,7 @@ video::-webkit-media-controls {
   position: fixed;
   bottom: 0;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.89);
   z-index: 1;
 }
 </style>
