@@ -31,6 +31,7 @@
           :pageIndex="index"
           :bio="view.bio"
           :popup="view.popup"
+          :isAudioMuted="isAudioMuted"
         />
       </section>
     </div>

@@ -97,6 +97,7 @@
           allowtransparency
           allow="autoplay"
         ></iframe>
+        <track kind="captions" label="English captions" :src="caption" srclang="en" default />
       </div>
       <div
         :id="`page-${pageIndex + 1}-iframe-${index}`"
@@ -113,14 +114,6 @@
           allow="autoplay"
         ></iframe>
       </div>
-      <!-- <div
-        :style="`height: ${players && players[index].playing ? 'auto' : '0px'}`"
-        :id="`page-${pageIndex + 1}-iframe-${index}`"
-        data-plyr-provider="vimeo"
-        :data-plyr-embed-id="video"
-        v-for="(video, index) in videos"
-        :key="index"
-      ></div>-->
     </div>
 
     <div
@@ -145,9 +138,7 @@ import { Tabs, Tab } from "vue-slim-tabs";
 
 import Plyr from "plyr";
 
-// import language_background_audio from "../assets/audios/LANGUAGE_TEMP_MUSIC.wav";
-// import family_background_audio from "../assets/audios/FAMILY_TEMP_MUSIC.wav";
-// import religion_background_audio from "../assets/audios/RELIGION_TEMP_MUSIC.wav";
+import caption from "../assets/caption.vtt";
 
 export default {
   name: "Slide",
@@ -160,27 +151,42 @@ export default {
     "isFirstPage",
     "tapes",
     "bio",
-    "popup"
+    "popup",
+    "isAudioMuted"
   ],
   components: {
     simplebar
   },
   data() {
     return {
+      caption,
       current: 0,
       isBioVisible: false,
       isPopupVisible: false,
       player: null,
       players: null
-      // backgroundAudio: null,
-      // audios: {
-      //   language_background_audio: null,
-      //   family_background_audio: null,
-      //   religion_background_audio: null
-      // }
     };
   },
   watch: {
+    isAudioMuted(val) {
+      if (val) {
+        if (this.players) {
+          this.players.map((pl) => {
+            pl.volume = 0
+          })
+        }
+
+        this.player.volume = 0
+      } else {
+        if (this.players) {
+          this.players.map((pl) => {
+            pl.volume = 1
+          })
+        }
+
+        this.player.volume = 1
+      }
+    },
     isBioVisible(val) {
       if (val) {
         anime({
@@ -198,28 +204,28 @@ export default {
         });
       }
     },
-    parentCurrent(val) {
-      // if (val >= 6 && val < 17) {
-      //   this.audios.language_background_audio.play();
-      // } else {
-      //   this.audios.language_background_audio.pause();
-      // }
-      // if (val >= 17 && val < 27) {
-      //   this.audios.family_background_audio.play();
-      // } else {
-      //   this.audios.family_background_audio.pause();
-      // }
-      // if (val >= 26) {
-      //   this.audios.religion_background_audio.play();
-      // } else {
-      //   this.audios.religion_background_audio.pause();
-      // }
-      // if (val === 5) {
-      //   this.audios.language_background_audio.pause();
-      //   this.audios.family_background_audio.pause();
-      //   this.audios.religion_background_audio.pause();
-      // }
-    },
+    // parentCurrent(val) {
+    //   // if (val >= 6 && val < 17) {
+    //   //   this.audios.language_background_audio.play();
+    //   // } else {
+    //   //   this.audios.language_background_audio.pause();
+    //   // }
+    //   // if (val >= 17 && val < 27) {
+    //   //   this.audios.family_background_audio.play();
+    //   // } else {
+    //   //   this.audios.family_background_audio.pause();
+    //   // }
+    //   // if (val >= 26) {
+    //   //   this.audios.religion_background_audio.play();
+    //   // } else {
+    //   //   this.audios.religion_background_audio.pause();
+    //   // }
+    //   // if (val === 5) {
+    //   //   this.audios.language_background_audio.pause();
+    //   //   this.audios.family_background_audio.pause();
+    //   //   this.audios.religion_background_audio.pause();
+    //   // }
+    // },
     isVisible(val) {
       if (val) {
         if (this.player) {
@@ -227,6 +233,8 @@ export default {
 
           if (!this.bio) {
             this.player.volume = 0;
+          } else {
+            this.player.volume = 0.5;
           }
         }
 
@@ -329,53 +337,6 @@ export default {
           })
       );
     }
-
-    // this.audios.language_background_audio = new Audio(
-    //   language_background_audio
-    // );
-    // this.audios.religion_background_audio = new Audio(
-    //   religion_background_audio
-    // );
-    // this.audios.family_background_audio = new Audio(family_background_audio);
-
-    // if (typeof this.audios.language_background_audio.loop == "boolean") {
-    //   this.audios.language_background_audio.loop = true;
-    // } else {
-    //   this.audios.language_background_audio.addEventListener(
-    //     "ended",
-    //     function() {
-    //       this.currentTime = 0;
-    //       this.play();
-    //     },
-    //     false
-    //   );
-    // }
-
-    // if (typeof this.audios.religion_background_audio.loop == "boolean") {
-    //   this.audios.religion_background_audio.loop = true;
-    // } else {
-    //   this.audios.religion_background_audio.addEventListener(
-    //     "ended",
-    //     function() {
-    //       this.currentTime = 0;
-    //       this.play();
-    //     },
-    //     false
-    //   );
-    // }
-
-    // if (typeof this.audios.family_background_audio.loop == "boolean") {
-    //   this.audios.family_background_audio.loop = true;
-    // } else {
-    //   this.audios.family_background_audio.addEventListener(
-    //     "ended",
-    //     function() {
-    //       this.currentTime = 0;
-    //       this.play();
-    //     },
-    //     false
-    //   );
-    // }
   }
 };
 </script>
