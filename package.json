@@ -16,7 +16,7 @@
     "hammerjs": "^2.0.8",
     "plyr": "^3.5.6",
     "simplebar-vue": "^1.1.0",
-    "underscore": "^1.9.1",
+    "underscore": "^1.12.1",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vue-slim-tabs": "^0.3.0",
